@@ -14,7 +14,7 @@
 #include <sstream>
 #include <string>
 #include <thread>
-#include "subscribe.h";
+#include "subscribe.h"
 
 
 int main(int argc, char** argv) {
