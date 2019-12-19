@@ -57,7 +57,12 @@ private:
 	std::string password_{};
 
 public:
-	subscribe(const std::string& conn, const std::string& address, const std::string& user, const std::string& password) : conn_url_(conn), address_(address) {}
+	subscribe(const std::string& conn, const std::string& address, const std::string& user, const std::string& password) : 
+		conn_url_(conn), 
+		address_(address),
+	    user_(user),
+		password_(password)
+		{}
 
 	void on_container_start(proton::container& cont) override {
 		proton::connection_options co;
