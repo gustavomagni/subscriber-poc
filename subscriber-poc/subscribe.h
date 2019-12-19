@@ -53,11 +53,19 @@ class subscribe : public proton::messaging_handler
 private:
 	std::string conn_url_{};
 	std::string address_{};
+	std::string user_{};
+	std::string password_{};
 
 public:
-	subscribe(const std::string& conn, const std::string& address) : conn_url_(conn), address_(address) {}
+	subscribe(const std::string& conn, const std::string& address, const std::string& user, const std::string& password) : conn_url_(conn), address_(address) {}
 
 	void on_container_start(proton::container& cont) override {
+		proton::connection_options co;
+		co.user(user_);
+		co.password(password_);
+		co.sasl_enabled(true);
+		co.sasl_allow_insecure_mechs(true);
+
 		cont.connect(conn_url_);
 	}
 
@@ -79,7 +87,7 @@ public:
 	void on_message(proton::delivery& dlv, proton::message& msg) override {
 		std::cout << "RECEIVE: Received message '" << msg.body() << "'\n";
 
-		// Para esse caso o Subscribe estara instanciado sempre por isso nao fecharemos conexoes etc...
+		// Para esse caso o Subscribe estara yinstanciado sempre por isso nao fecharemos conexoes etc...
 
 		//if (received_ == desired_) {
 			//dlv.receiver().close();

@@ -20,8 +20,10 @@
 int main(int argc, char** argv) {
 	std::string url("amqp://localhost:61616");
 	std::string address("topic.valorEconomico");
+	std::string user("admin");
+	std::string password("admin");
 
-	subscribe sub(url, address);
+	subscribe sub(url, address, user, password);
 
 	proton::container cont{ sub };
 
