@@ -53,12 +53,9 @@ class subscribe : public proton::messaging_handler
 private:
 	std::string conn_url_{};
 	std::string address_{};
-	std::string label_{};
-	int desired_{ 0 };
-	int received_{ 0 };
 
 public:
-	subscribe(const std::string& conn, const std::string& address, const std::string& label, const int& desired, const int& received) : conn_url_(conn), address_(address), label_(label), desired_(desired), received_(received) {}
+	subscribe(const std::string& conn, const std::string& address) : conn_url_(conn), address_(address) {}
 
 	void on_container_start(proton::container& cont) override {
 		cont.connect(conn_url_);
@@ -67,7 +64,7 @@ public:
 	void on_connection_open(proton::connection& conn) override {
 		source_options source_options;
 		source_options.dynamic(false);
-		source_options.address("topic.valorEconomico");
+		source_options.address(address_);
 
 		receiver_options receiver_options;
 		receiver_options.source(source_options);
@@ -76,13 +73,13 @@ public:
 	}
 
 	void on_receiver_open(proton::receiver& rcv) override {
-		std::cout << "RECEIVE: Opened receiver for source address '" << rcv.source().address() << "' Id: '" << label_ << "'\n";
+		std::cout << "RECEIVE: Opened receiver for source address '" << rcv.source().address();
 	}
 
 	void on_message(proton::delivery& dlv, proton::message& msg) override {
 		std::cout << "RECEIVE: Received message '" << msg.body() << "'\n";
 
-		received_++;
+		// Para esse caso o Subscribe estara instanciado sempre por isso nao fecharemos conexoes etc...
 
 		//if (received_ == desired_) {
 			//dlv.receiver().close();

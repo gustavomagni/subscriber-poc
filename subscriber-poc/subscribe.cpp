@@ -19,22 +19,14 @@
 
 int main(int argc, char** argv) {
 	std::string url("amqp://localhost:61616");
-	std::string address("topic.foo");
-	int desired = 1;
-	int received = 0;
+	std::string address("topic.valorEconomico");
 
-	subscribe sub(url, address, "Label One", desired, received);
-	subscribe subTwo(url, address, "Label Two", desired, received);
-	subscribe subThree(url, address, "Label Three", desired, received);
+	subscribe sub(url, address);
 
 	proton::container cont{ sub };
-	//proton::container contTwo{ subTwo };
-	//proton::container contThree{ subThree };
 
 	try {
 		cont.run();
-		//contTwo.run();
-		//contThree.run();
 	}
 	catch (const std::exception & e) {
 		std::cerr << e.what() << "\n";
